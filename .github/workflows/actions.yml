@@ -14,15 +14,26 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: gentoo/stage3
-      env:
-        DATE: ${{ inputs.date }}
 
     steps:
     - name: checkout source
       uses: actions/checkout@v4
 
+    - name: get date
+      run: test "$DATE" && echo "NEWDATE=$DATE" || echo NEWDATE=$(date --date="1 day ago" +%Y%m%d) >> $GITHUB_ENV
+      env:
+        DATE: ${{ inputs.date }}
+
+    - name: cache tree snapshot
+      uses: actions/cache@v4
+      with:
+        key: portage-${{ env.NEWDATE }}
+        path: /var/cache/distfiles
+        restore-keys: |
+          portage-
+
     - name: get portage tree
-      run: emerge-webrsync --quiet ${DATE:+--revert=$DATE}
+      run: emerge-webrsync --quiet --keep ${NEWDATE:+--revert=$NEWDATE}
 
     - name: Summary header
       run: echo "## Portage best versions" >> $GITHUB_STEP_SUMMARY
