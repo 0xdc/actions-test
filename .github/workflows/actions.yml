@@ -12,19 +12,14 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
-    container:
-      image: gentoo/stage3
+    container: gentoo/stage3
     steps:
     - name: Checkout source
       uses: actions/checkout@v4
 
     - name: get date
-      run: echo ARGS=${DATE:+--revert=$DATE} >> ${GITHUB_ENV}
+      run: |
+        emerge-webrsync ${DATE:+--revert=$DATE}
+        emerge --info
       env:
         DATE: ${{ inputs.date }}
-
-    - name: run in docker container
-      run: emerge-webrsync ${{ env.ARGS }}
-
-    - name: confirm
-      run: emerge --info
