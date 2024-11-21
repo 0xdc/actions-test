@@ -2,6 +2,9 @@ name: action
 
 on:
   push:
+  schedule:
+  - cron: "46 *  2      * *" # every hour on a 2nd day of the month
+  - cron: "46 13 1,3-31 * *" # 13:46 on all other days
   workflow_dispatch:
     inputs:
       date:
@@ -11,8 +14,7 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
-    container:
-      image: gentoo/stage3
+    container: gentoo/stage3
 
     steps:
     - name: checkout source
@@ -45,10 +47,7 @@ jobs:
       run: emerge-webrsync --quiet --keep ${NEWDATE:+--revert=$NEWDATE}
 
     - name: Summary header
-      run: echo "## Found best versions for $NEWDATE" >> $GITHUB_STEP_SUMMARY
-
-    - name: check kirigami
-      run: ./.github/workflows/bestmatch-visible.py kde-frameworks/kirigami
-
-    - name: check systemd
-      run: ./.github/workflows/bestmatch-visible.py sys-apps/systemd
+      run: |
+        echo "## Found best versions for $NEWDATE" >> $GITHUB_STEP_SUMMARY
+        ./.github/workflows/bestmatch-visible.py kde-frameworks/kirigami
+        ./.github/workflows/bestmatch-visible.py sys-apps/systemd
