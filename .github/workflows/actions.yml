@@ -44,7 +44,7 @@ jobs:
       run: emerge-webrsync --quiet --keep ${NEWDATE:+--revert=$NEWDATE}
 
     - name: install git
-      run: emerge --update --quiet dev-vcs/git
+      run: emerge --update --quiet --getbinpkg dev-vcs/git
 
     - name: checkout source
       uses: actions/checkout@v4
