@@ -22,22 +22,28 @@ jobs:
       env:
         DATE: ${{ inputs.date }}
 
+    - name: cache getuto keys
+      uses: actions/cache@v4
+      with:
+        key: getuto-${{ env.NEWDATE }}
+        path: /etc/portage/gnupg
+        restore-keys: getuto-
+
     - name: cache whole tree
       id: cache-tree
       uses: actions/cache@v4
       with:
-        key: tree-${{ env.NEWDATE }}
+        key: portage-${{ env.NEWDATE }}
         path: /var/db/repos/gentoo
 
     - name: cache tree snapshot
       id: cache-snapshot
-      if: ${{ steps.cache-tree.outputs.cache-hit != 'true' }}
       uses: actions/cache@v4
       with:
-        key: portage-${{ env.NEWDATE }}
+        key: distfiles-${{ env.NEWDATE }}
         path: /var/cache/distfiles
         restore-keys: |
-          portage-
+          distfiles-
 
     - name: get portage tree
       if: ${{ steps.cache-tree.outputs.cache-hit != 'true' }}
