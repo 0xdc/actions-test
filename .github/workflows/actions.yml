@@ -18,7 +18,11 @@ jobs:
         DATE: ${{ inputs.date }}
 
     steps:
-    - name: get date
-      run: |
-        emerge-webrsync ${DATE:+--revert=$DATE}
-        emerge --info
+    - name: get portage tree
+      run: emerge-webrsync --quiet ${DATE:+--revert=$DATE}
+
+    - name: check kirigami
+      run: ./.github/workflows/bestmatch-visible.py kde-frameworks/kirigami
+
+    - name: check systemd
+      run: ./.github/workflows/bestmatch-visible.py sys-apps/systemd
