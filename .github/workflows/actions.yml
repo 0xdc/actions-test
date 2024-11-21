@@ -17,13 +17,11 @@ jobs:
       uses: actions/checkout@v4
 
     - name: get date
-      run: echo ${DATE:+today is $DATE}
+      run: echo ARGS=${DATE:+--revert=$DATE} >> ${GITHUB_ENV}
       env:
         DATE: ${{ inputs.date }}
 
     - name: run in docker container
       uses: docker://applehq/gentoo-stage4
       with:
-        args: emerge-webrsync ${DATE:+--revert=$DATE}
-      env:
-        DATE: ${{ inputs.date }}
+        args: emerge-webrsync ${{ env.ARGS }}
