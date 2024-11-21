@@ -29,7 +29,6 @@ jobs:
       with:
         key: tree-${{ env.NEWDATE }}
         path: /var/db/repos/gentoo
-        restore-key: tree
 
     - name: cache tree snapshot
       id: cache-snapshot
