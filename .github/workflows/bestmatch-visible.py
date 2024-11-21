@@ -5,4 +5,4 @@ import portage
 
 p = portage.db[portage.root]["porttree"].dbapi
 
-print( p.xmatch("bestmatch-visible", sys.argv[0]) )
+print( p.xmatch("bestmatch-visible", sys.argv[1]) )
