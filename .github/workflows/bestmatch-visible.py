@@ -14,5 +14,5 @@ print(bestmatch)
 
 if is_github:
     with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as summary:
-        summary.write(f'found version {bestmatch}\n')
+        summary.write(f'- found version {bestmatch}\n')
     sys.stderr.write("::endgroup::\n")
