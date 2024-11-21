@@ -42,8 +42,7 @@ jobs:
       with:
         key: distfiles-${{ env.NEWDATE }}
         path: /var/cache/distfiles
-        restore-keys: |
-          distfiles-
+        restore-keys: distfiles-
 
     - name: get portage tree
       if: ${{ steps.cache-tree.outputs.cache-hit != 'true' }}
