@@ -18,7 +18,7 @@ jobs:
 
     steps:
     - name: get date
-      run: test "$DATE" && echo "NEWDATE=$DATE" || echo NEWDATE=$(date --date="1 day ago" +%Y%m%d) | tee -a $GITHUB_ENV
+      run: (test "$DATE" && echo "NEWDATE=$DATE" || echo NEWDATE=$(date --date="1 day ago" +%Y%m%d)) | tee -a $GITHUB_ENV
       env:
         DATE: ${{ inputs.date }}
 
