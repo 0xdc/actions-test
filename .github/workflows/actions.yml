@@ -50,7 +50,9 @@ jobs:
 
     - name: install git
       run: |
+        echo ::group::getuto
         getuto
+        echo ::endgroup::
         emerge --update --quiet --getbinpkg dev-vcs/git
 
     - name: checkout source
