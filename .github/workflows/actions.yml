@@ -46,7 +46,7 @@ jobs:
       if: ${{ steps.cache-tree.outputs.cache-hit != 'true' }}
       run: emerge-webrsync --quiet --keep ${NEWDATE:+--revert=$NEWDATE}
 
-    - name: Summary header
+    - name: Find best versions
       run: |
         echo "## Found best versions for $NEWDATE" >> $GITHUB_STEP_SUMMARY
         ./.github/workflows/bestmatch-visible.py kde-frameworks/kirigami
