@@ -1,0 +1,22 @@
+name: action
+
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      date:
+        description: date
+        required: false
+        default: ''
+        
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout source
+      uses: actions/checkout@v4
+
+    - name: get date
+      run: echo ${DATE:+today}
+      env:
+        DATE: ${{ inputs.date }}
