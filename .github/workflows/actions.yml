@@ -18,6 +18,9 @@ jobs:
         DATE: ${{ inputs.date }}
 
     steps:
+    - name: checkout source
+      uses: actions/checkout@v4
+
     - name: get portage tree
       run: emerge-webrsync --quiet ${DATE:+--revert=$DATE}
 
