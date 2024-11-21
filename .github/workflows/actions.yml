@@ -23,7 +23,17 @@ jobs:
       env:
         DATE: ${{ inputs.date }}
 
+    - name: cache whole tree
+      id: cache-tree
+      uses: actions/cache@v4
+      with:
+        key: tree-${{ env.NEWDATE }}
+        path: /var/db/repos/gentoo
+        restore-key: tree
+
     - name: cache tree snapshot
+      id: cache-snapshot
+      if: ${{ steps.cache-tree.outputs.cache-hit != 'true' }}
       uses: actions/cache@v4
       with:
         key: portage-${{ env.NEWDATE }}
@@ -32,6 +42,7 @@ jobs:
           portage-
 
     - name: get portage tree
+      if: ${{ steps.cache-tree.outputs.cache-hit != 'true' }}
       run: emerge-webrsync --quiet --keep ${NEWDATE:+--revert=$NEWDATE}
 
     - name: Summary header
