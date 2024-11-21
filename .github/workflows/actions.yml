@@ -36,7 +36,7 @@ jobs:
       run: emerge-webrsync --quiet --keep ${NEWDATE:+--revert=$NEWDATE}
 
     - name: Summary header
-      run: echo "## Portage best versions" >> $GITHUB_STEP_SUMMARY
+      run: echo "## Found best versions for $NEWDATE" >> $GITHUB_STEP_SUMMARY
 
     - name: check kirigami
       run: ./.github/workflows/bestmatch-visible.py kde-frameworks/kirigami
