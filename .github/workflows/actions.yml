@@ -60,4 +60,4 @@ jobs:
       run: |
         echo "## Found best versions for $NEWDATE" >> $GITHUB_STEP_SUMMARY
         grep -qR $(./.github/workflows/bestmatch-visible.py kde-frameworks/kirigami)
-        git grep -q $(./.github/workflows/bestmatch-visible.py sys-apps/systemd)
+        grep -qR $(./.github/workflows/bestmatch-visible.py sys-apps/systemd)
