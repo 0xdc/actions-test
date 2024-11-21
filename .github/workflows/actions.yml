@@ -12,6 +12,8 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
+    container:
+      image: gentoo/stage3
     steps:
     - name: Checkout source
       uses: actions/checkout@v4
@@ -22,6 +24,7 @@ jobs:
         DATE: ${{ inputs.date }}
 
     - name: run in docker container
-      uses: docker://applehq/gentoo-stage4
-      with:
-        args: emerge-webrsync ${{ env.ARGS }}
+      run: emerge-webrsync ${{ env.ARGS }}
+
+    - name: confirm
+      run: emerge --info
