@@ -24,6 +24,9 @@ jobs:
     - name: get portage tree
       run: emerge-webrsync --quiet ${DATE:+--revert=$DATE}
 
+    - name: Summary header
+      run: echo "## Portage best versions" >> $GITHUB_STEP_SUMMARY
+
     - name: check kirigami
       run: ./.github/workflows/bestmatch-visible.py kde-frameworks/kirigami
 
