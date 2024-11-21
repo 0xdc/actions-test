@@ -17,9 +17,6 @@ jobs:
     container: gentoo/stage3
 
     steps:
-    - name: checkout source
-      uses: actions/checkout@v4
-
     - name: get date
       run: test "$DATE" && echo "NEWDATE=$DATE" || echo NEWDATE=$(date --date="1 day ago" +%Y%m%d) | tee -a $GITHUB_ENV
       env:
@@ -45,6 +42,12 @@ jobs:
     - name: get portage tree
       if: ${{ steps.cache-tree.outputs.cache-hit != 'true' }}
       run: emerge-webrsync --quiet --keep ${NEWDATE:+--revert=$NEWDATE}
+
+    - name: install git
+      run: emerge --update dev-vcs/git
+
+    - name: checkout source
+      uses: actions/checkout@v4
 
     - name: Find best versions
       run: |
