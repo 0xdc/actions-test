@@ -59,13 +59,13 @@ jobs:
       run: echo "## Found best versions for $NEWDATE" >> $GITHUB_STEP_SUMMARY
 
   trigger-kirigami:
-    uses: .github/workflows/reuse.yml
+    uses: ./.github/workflows/reuse.yml
     with:
       date: ${{ env.NEWDATE }}
       package: kde-frameworks/kirigami
 
   trigger-systemd:
-    uses: .github/workflows/reuse.yml
+    uses: ./.github/workflows/reuse.yml
     with:
       date: ${{ env.NEWDATE }}
       package: sys-apps/systemd
