@@ -18,14 +18,12 @@ jobs:
   grep:
     runs-on: ubuntu-latest
     container: gentoo/stage3
-    env:
-      DATE: ${{ inputs.date }}
 
     steps:
     - name: fetch getuto keys
       uses: actions/cache/restore@v4
       with:
-        key: getuto-${{ env.DATE }}
+        key: getuto-${{ inputs.DATE }}
         path: /etc/portage/gnupg
         restore-keys: getuto-
 
@@ -33,7 +31,7 @@ jobs:
       id: cache-tree
       uses: actions/cache/restore@v4
       with:
-        key: portage-${{ env.DATE }}
+        key: portage-${{ inputs.DATE }}
         path: /var/db/repos/gentoo
         fail-on-cache-miss: true
 
@@ -41,7 +39,7 @@ jobs:
       id: cache-snapshot
       uses: actions/cache/restore@v4
       with:
-        key: distfiles-${{ env.DATE }}
+        key: distfiles-${{ inputs.DATE }}
         path: /var/cache/distfiles
         restore-keys: distfiles-
 
