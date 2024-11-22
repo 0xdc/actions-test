@@ -12,7 +12,7 @@ on:
         required: false
         
 jobs:
-  check:
+  prep:
     runs-on: ubuntu-latest
     container: gentoo/stage3
 
@@ -46,7 +46,7 @@ jobs:
 
     - name: get portage tree
       if: ${{ steps.cache-tree.outputs.cache-hit != 'true' }}
-      run: emerge-webrsync --quiet --keep ${NEWDATE:+--revert=$NEWDATE}
+      run: emerge-webrsync --quiet ${NEWDATE:+--revert=$NEWDATE}
 
     - name: install git
       run: |
@@ -55,11 +55,17 @@ jobs:
         echo ::endgroup::
         emerge --update --quiet --getbinpkg dev-vcs/git
 
-    - name: checkout source
-      uses: actions/checkout@v4
-
     - name: Find best versions
-      run: |
-        echo "## Found best versions for $NEWDATE" >> $GITHUB_STEP_SUMMARY
-        grep -qR $(./.github/workflows/bestmatch-visible.py kde-frameworks/kirigami)
-        grep -qR $(./.github/workflows/bestmatch-visible.py sys-apps/systemd)
+      run: echo "## Found best versions for $NEWDATE" >> $GITHUB_STEP_SUMMARY
+
+  trigger-kirigami:
+    uses: .github/workflows/reuse.yml
+    with:
+      date: ${{ env.NEWDATE }}
+      package: kde-frameworks/kirigami
+
+  trigger-systemd:
+    uses: .github/workflows/reuse.yml
+    with:
+      date: ${{ env.NEWDATE }}
+      package: sys-apps/systemd

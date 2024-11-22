@@ -1,0 +1,58 @@
+name: reusable action
+
+run-name: ${{ inputs.package }} check
+
+on:
+  workflow_call:
+    inputs:
+      date:
+        description: date
+        required: true
+      package:
+        description: package name
+        required: true
+
+jobs:
+  grep:
+    runs-on: ubuntu-latest
+    container: gentoo/stage3
+    env:
+      DATE: ${{ inputs.date }}
+
+    steps:
+    - name: fetch getuto keys
+      uses: actions/cache@v4
+      with:
+        key: getuto-${{ env.NEWDATE }}
+        path: /etc/portage/gnupg
+        restore-keys: getuto-
+
+    - name: fetch whole tree
+      id: cache-tree
+      uses: actions/cache@v4
+      with:
+        key: portage-${{ env.NEWDATE }}
+        path: /var/db/repos/gentoo
+
+    - name: fetch tree snapshot
+      id: cache-snapshot
+      uses: actions/cache@v4
+      with:
+        key: distfiles-${{ env.NEWDATE }}
+        path: /var/cache/distfiles
+        restore-keys: distfiles-
+
+    - name: install git
+      run: |
+        echo ::group::getuto
+        getuto
+        echo ::endgroup::
+        emerge --update --quiet --getbinpkg dev-vcs/git
+
+    - name: checkout source
+      uses: actions/checkout@v4
+
+    - name: Find best versions
+      run: grep -qR $(.github/workflows/bestmatch-visible.py $PACKAGE)
+      env:
+        PACKAGE: ${{ inputs.package }}
