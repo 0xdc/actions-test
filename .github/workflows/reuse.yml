@@ -12,7 +12,7 @@ on:
       package:
         description: package name
         required: true
-        type:string
+        type: string
 
 jobs:
   grep:
