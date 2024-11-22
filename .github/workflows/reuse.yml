@@ -25,7 +25,7 @@ jobs:
     - name: fetch getuto keys
       uses: actions/cache/restore@v4
       with:
-        key: getuto-${{ env.NEWDATE }}
+        key: getuto-${{ env.DATE }}
         path: /etc/portage/gnupg
         restore-keys: getuto-
 
@@ -33,7 +33,7 @@ jobs:
       id: cache-tree
       uses: actions/cache/restore@v4
       with:
-        key: portage-${{ env.NEWDATE }}
+        key: portage-${{ env.DATE }}
         path: /var/db/repos/gentoo
         fail-on-cache-miss: true
 
@@ -41,7 +41,7 @@ jobs:
       id: cache-snapshot
       uses: actions/cache/restore@v4
       with:
-        key: distfiles-${{ env.NEWDATE }}
+        key: distfiles-${{ env.DATE }}
         path: /var/cache/distfiles
         restore-keys: distfiles-
 
