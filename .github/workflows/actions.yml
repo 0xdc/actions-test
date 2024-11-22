@@ -63,12 +63,14 @@ jobs:
 
   trigger-kirigami:
     uses: ./.github/workflows/reuse.yml
+    needs: prep
     with:
-      date: ${{ jobs.prep.outputs.date }}
+      date: ${{ needs.prep.outputs.date }}
       package: kde-frameworks/kirigami
 
   trigger-systemd:
     uses: ./.github/workflows/reuse.yml
+    needs: prep
     with:
-      date: ${{ jobs.prep.outputs.date }}
+      date: ${{ needs.prep.outputs.date }}
       package: sys-apps/systemd
