@@ -53,10 +53,16 @@ jobs:
         echo ::group::getuto
         getuto
         echo ::endgroup::
-        emerge --update --quiet --getbinpkg dev-vcs/git
+        emerge --update --quiet --getbinpkg dev-vcs/git app-eselect/eselect-repository
 
-    - name: Find best versions
-      run: echo "## Found best versions for $NEWDATE" >> $GITHUB_STEP_SUMMARY
+        eselect repository add 0xdc git https://github.com/0xdc/overlay
+        emaint sync -r 0xdc
+
+
+    - name: Discover available profiles
+      run: |
+        echo "## Profiles in $NEWDATE" >> $GITHUB_STEP_SUMMARY
+        eselect profile list | sed 's/^/-/' >> $GITHUB_STEP_SUMMARY
 
     outputs:
       date: ${{ env.NEWDATE }}
