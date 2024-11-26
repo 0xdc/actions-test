@@ -14,3 +14,21 @@ jobs:
 
     - name: build-a-package
       run: nix-build '<nixpkgs>' -A modemmanager
+
+  sandboxed:
+    runs-on: ubuntu-latest
+    container:
+      image: nixos/nix
+      options: --privileged
+    steps:
+    - name: update nix-channel
+      run: nix-channel --update
+
+    - name: enable sandbox
+      run: |
+        ls -l /etc/nix/nix.conf
+        cat /etc/nix/nix.conf
+        sed -i '/^sandbox/s/false/true/' /etc/nix/nix.conf
+
+    - name: build-a-package
+      run: nix-build '<nixpkgs>' -A modemmanager
