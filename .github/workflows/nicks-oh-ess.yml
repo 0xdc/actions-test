@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  sandboxed:
+  unsandboxed:
     runs-on: ubuntu-latest
     container: nixos/nix
     steps:
