@@ -30,7 +30,7 @@ jobs:
         cp -L /etc/nix/nix.conf.bak /etc/nix/nix.conf
         ls -l /etc/nix/nix.conf
         cat /etc/nix/nix.conf
-        nix-env -iA gnused
+        nix-env -i gnused
         sed -i '/^sandbox/s/false/true/' /etc/nix/nix.conf
 
     - name: build-a-package
