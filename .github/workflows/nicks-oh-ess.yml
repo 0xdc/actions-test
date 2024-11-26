@@ -26,8 +26,11 @@ jobs:
 
     - name: enable sandbox
       run: |
+        mv /etc/nix/nix.conf /etc/nix/nix.conf.bak
+        cp -L /etc/nix/nix.conf.bak /etc/nix/nix.conf
         ls -l /etc/nix/nix.conf
         cat /etc/nix/nix.conf
+        nix-env -iA sed
         sed -i '/^sandbox/s/false/true/' /etc/nix/nix.conf
 
     - name: build-a-package
