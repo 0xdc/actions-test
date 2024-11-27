@@ -12,10 +12,10 @@ jobs:
     - name: update nix-channel
       run: nix-channel --update
 
-    - name: need node inside container
+    - name: nodejs actions workaround
       run: |
-        nix-env -iA nixpkgs.nodejs_20
-        ls -l /__e/node20/bin/node
+        echo LD_LIBRARY_PATH=$(nix-build --no-link '<nixpkgs>' --attr stdenv.cc.cc.lib)/lib >> "$GITHUB_ENV"
+        ln -s $(nix-build --no-link '<nixpkgs>' --attr glibc)/lib64 /lib64
 
     - name: checkout sources
       uses: actions/checkout@v4
@@ -40,10 +40,10 @@ jobs:
         nix-env -iA nixpkgs.gnused
         sed -i '/^sandbox/s/false/true/' /etc/nix/nix.conf
 
-    - name: need node inside container
+    - name: nodejs actions workaround
       run: |
-        nix-env -iA nixpkgs.nodejs_20
-        ls -l /__e/node20/bin/node
+        echo LD_LIBRARY_PATH=$(nix-build --no-link '<nixpkgs>' --attr stdenv.cc.cc.lib)/lib >> "$GITHUB_ENV"
+        ln -s $(nix-build --no-link '<nixpkgs>' --attr glibc)/lib64 /lib64
 
     - name: checkout sources
       uses: actions/checkout@v4
