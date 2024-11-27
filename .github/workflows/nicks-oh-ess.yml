@@ -50,3 +50,21 @@ jobs:
 
     - name: build-a-package
       run: nix-build --expr 'import <nixpkgs>{config=import ./mm.nix;}' -A modemmanager
+
+  kernel:
+    runs-on: ubuntu-latest
+    container: nixos/nix
+    steps:
+    - name: update nix-channel
+      run: nix-channel --update
+
+    - name: nodejs actions workaround
+      run: |
+        echo LD_LIBRARY_PATH=$(nix-build --no-link '<nixpkgs>' --attr stdenv.cc.cc.lib)/lib >> "$GITHUB_ENV"
+        ln -s $(nix-build --no-link '<nixpkgs>' --attr glibc)/lib64 /lib64
+
+    - name: checkout sources
+      uses: actions/checkout@v4
+
+    - name: build-a-kernel
+      run: nix-build --expr 'import <nixpkgs>{config=import ./kernel.nix;}' -A linux
