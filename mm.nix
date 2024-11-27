@@ -5,7 +5,7 @@
 			src = attrs.src.override {
 				owner = "tuxor1337";
 				rev = "intel-rpc-xmm7360";
-				hash = "sha256-cXaI1ZuS6y90ZOeiqh7oq/+gvuoKi5MmMiCntgl0rbo=";
+				hash = "sha256-ayBow2JDWMp4hFeae7jpNx6NTsDtc682HjiZapoQAEs=";
 			};
 			patches = [
 				./modemmanager/no-dummy-dirs-in-sysconfdir.patch
