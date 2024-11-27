@@ -13,7 +13,7 @@ jobs:
       run: nix-channel --update
 
     - name: need node inside container
-      run: nix-env -iA nodejs_20
+      run: nix-env -iA nixpkgs.nodejs_20
 
     - name: checkout sources
       uses: actions/checkout@v4
