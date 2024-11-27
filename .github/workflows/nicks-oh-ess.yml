@@ -13,7 +13,9 @@ jobs:
       run: nix-channel --update
 
     - name: need node inside container
-      run: nix-env -iA nixpkgs.nodejs_20
+      run: |
+        nix-env -iA nixpkgs.nodejs_20
+        ls -l /__e/node20/bin/node
 
     - name: checkout sources
       uses: actions/checkout@v4
@@ -39,7 +41,9 @@ jobs:
         sed -i '/^sandbox/s/false/true/' /etc/nix/nix.conf
 
     - name: need node inside container
-      run: nix-env -iA nixpkgs.nodejs_20
+      run: |
+        nix-env -iA nixpkgs.nodejs_20
+        ls -l /__e/node20/bin/node
 
     - name: checkout sources
       uses: actions/checkout@v4
