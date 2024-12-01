@@ -3,6 +3,8 @@ name: nixos workflows
 on:
   push:
   workflow_dispatch:
+  schedule:
+  - cron: "42 10 * * *"
 
 jobs:
   unsandboxed:
