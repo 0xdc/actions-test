@@ -53,37 +53,33 @@ jobs:
         echo ::group::getuto
         getuto
         echo ::endgroup::
+        echo ::group::install git
         emerge --update --quiet --getbinpkg dev-vcs/git app-eselect/eselect-repository
+        echo ::endgroup::
 
+        echo ::group::add overlay
         eselect repository add 0xdc git https://github.com/0xdc/overlay
         emaint sync -r 0xdc
+        echo ::endgroup::
 
 
     - name: Discover available profiles
       run: |
         echo "## Profiles in $NEWDATE" >> $GITHUB_STEP_SUMMARY
-        eselect profile list | sed 's/^/-/' >> $GITHUB_STEP_SUMMARY
+        eselect profile list | sed -n '/0xdc/{s/^/-/;p}' >> $GITHUB_STEP_SUMMARY
 
     outputs:
       date: ${{ env.NEWDATE }}
 
-  trigger-kirigami:
+  trigger:
     uses: ./.github/workflows/reuse.yml
     needs: prep
+    strategy:
+      matrix:
+        package:
+        - kde-frameworks/kirigami
+        - sys-apps/systemd
+        - app-crypt/libb2
     with:
       date: ${{ needs.prep.outputs.date }}
-      package: kde-frameworks/kirigami
-
-  trigger-systemd:
-    uses: ./.github/workflows/reuse.yml
-    needs: prep
-    with:
-      date: ${{ needs.prep.outputs.date }}
-      package: sys-apps/systemd
-
-  trigger-b2:
-    uses: ./.github/workflows/reuse.yml
-    needs: prep
-    with:
-      date: ${{ needs.prep.outputs.date }}
-      package: app-crypt/libb2
+      package: ${{ matrix.package }}

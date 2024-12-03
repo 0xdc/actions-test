@@ -13,6 +13,8 @@ bestmatch = p.xmatch("bestmatch-visible", sys.argv[1])
 print(bestmatch)
 
 if is_github:
+    with open(os.environ['GITHUB_ENV'], 'a') as env:
+        print(f'NEWPKG={bestmatch}', file=env)
     with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as summary:
         print(f'- found version {bestmatch}', file=summary)
     print("::endgroup::", file=sys.stderr)
