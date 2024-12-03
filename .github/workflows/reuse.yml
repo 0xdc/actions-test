@@ -44,13 +44,7 @@ jobs:
         restore-keys: distfiles-
 
     - name: install git
-      run: |
-        echo ::group::getuto
-        getuto
-        echo ::endgroup::
-        echo ::group::install git
-        emerge --update --quiet --getbinpkg dev-vcs/git
-        echo ::endgroup::
+      run: .github/workflows/installgit.sh
 
     - name: checkout source
       uses: actions/checkout@v4
