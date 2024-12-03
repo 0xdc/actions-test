@@ -1,7 +1,6 @@
 name: custom kernel
 
 on:
-  push:
   workflow_dispatch:
 
 jobs:
