@@ -68,6 +68,6 @@ jobs:
     needs: bestmatch
     steps:
     - uses: actions/checkout@v4
-    - run: git --no-pager grep -R $ATOM
+    - run: git --no-pager grep $ATOM
       env:
         ATOM: ${{ needs.bestmatch.outputs.package }}
