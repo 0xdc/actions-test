@@ -3,8 +3,8 @@ name: action
 on:
   push:
   schedule:
-  - cron: "46 *  2      * *" # every hour on a 2nd day of the month
-  - cron: "46 13 1,3-31 * *" # 13:46 on all other days
+  - cron: "46 0-4 2      * *" # early morning hours on a 2nd day of the month
+  - cron: "46 13  1,3-31 * *" # 13:46 on all other days
   workflow_dispatch:
     inputs:
       date:
