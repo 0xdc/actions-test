@@ -80,3 +80,10 @@ jobs:
     with:
       date: ${{ needs.prep.outputs.date }}
       package: sys-apps/systemd
+
+  trigger-b2:
+    uses: ./.github/workflows/reuse.yml
+    needs: prep
+    with:
+      date: ${{ needs.prep.outputs.date }}
+      package: app-crypt/libb2
