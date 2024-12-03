@@ -50,7 +50,6 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Find best versions
-      shell: python
       run: .github/workflows/bestmatch-visible.py $PACKAGE
       env:
         PACKAGE: ${{ inputs.package }}
