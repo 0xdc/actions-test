@@ -50,12 +50,18 @@ jobs:
 
     - name: install git
       run: |
-        .github/workflows/installgit.sh app-eselect/eselect-repository
+        echo ::group::getuto
+        getuto
+        echo ::endgroup::
+        echo ::group::install git
+        emerge --update --quiet --getbinpkg dev-vcs/git app-eselect/eselect-repository
+        echo ::endgroup::
 
         echo ::group::add overlay
         eselect repository add 0xdc git https://github.com/0xdc/overlay
         emaint sync -r 0xdc
         echo ::endgroup::
+
 
     - name: Discover available profiles
       run: |
