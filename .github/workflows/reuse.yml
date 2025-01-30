@@ -68,6 +68,21 @@ jobs:
     needs: bestmatch
     steps:
     - uses: actions/checkout@v4
-    - run: git --no-pager grep $ATOM
+    - run: |
+        if git --no-pager grep --quiet $ATOM; then
+            if test -f "$GITHUB_STEP_SUMMARY"; then
+                echo ":tick: $ATOM" >> "$GITHUB_STEP_SUMMARY"
+            else
+                echo "Found $ATOM"
+            fi
+            exit 0
+        else
+            if test -f "$GITHUB_STEP_SUMMARY"; then
+                echo ":cross: $ATOM" >> "$GITHUB_STEP_SUMMARY"
+            else
+                echo "$ATOM not found"
+            fi
+            exit 1
+        fi
       env:
         ATOM: ${{ needs.bestmatch.outputs.package }}
