@@ -80,6 +80,7 @@ jobs:
         - kde-frameworks/kirigami
         - sys-apps/systemd
         - app-crypt/libb2
+        - net-libs/gnutls
     with:
       date: ${{ needs.prep.outputs.date }}
       package: ${{ matrix.package }}
