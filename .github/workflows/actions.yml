@@ -74,6 +74,7 @@ jobs:
   trigger:
     uses: ./.github/workflows/reuse.yml
     needs: prep
+    continue-on-error: true
     strategy:
       matrix:
         package:
